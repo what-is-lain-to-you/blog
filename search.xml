@@ -4,7 +4,7 @@
   
     
     <entry>
-      <title>C++里的类型转换</title>
+      <title>C++里的类型转换方法</title>
       <link href="/2022/06/25/C-%E9%87%8C%E7%9A%84%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E6%96%B9%E6%B3%95/"/>
       <url>/2022/06/25/C-%E9%87%8C%E7%9A%84%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E6%96%B9%E6%B3%95/</url>
       
@@ -14,26 +14,7 @@
       
         <tags>
             
-            <tag> C++ 类型转换 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>C++里的类型转换</title>
-      <link href="/2022/06/25/C++%E9%87%8C%E7%9A%84%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2/"/>
-      <url>/2022/06/25/C++%E9%87%8C%E7%9A%84%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2/</url>
-      
-        <content type="html"><![CDATA[<h1 id="C-类型转换"><a href="#C-类型转换" class="headerlink" title="C++类型转换"></a>C++类型转换</h1><hr><p>由于C++继承了C，因此C语言中的强制类型转换方法在C++中同样适用。<br>形式为：<br><b>(类型说明符)表达式</b><br>不过在C++里，除了这种转换类型的方法外，还有四种转换方法。</p><ul><li>static_cast&lt;类型说明符&gt;(表达式）</li><li>dynamic_cast&lt;类型说明符&gt;(表达式）</li><li>const_cast&lt;类型说明符&gt;(表达式）</li><li>reinterpret_cast&lt;类型说明符&gt;(表达式）</li></ul><h3 id="reinterpret-cast"><a href="#reinterpret-cast" class="headerlink" title="reinterpret_cast"></a>reinterpret_cast</h3><p>reinterpret_cast 运算符并不会改变括号中运算对象的值，而是对该对象从位模式上进行重新解释<br>为了理解这个“从位模式上进行重新解释”，就得先明白Int类型的指针与Char类型的指针与其他自定义类型的指针的区别在哪，这些指针有啥差异。<br><b>“指向不同类型之各指针间的差异，既不在其指针表示法不同，也不在其内容（代表一个地址）不同，而是在其所寻址出来的对象类型不同。也就是说，指针类型会教导编译器如何解释某个特定地址中的内存内容及其大小”</b><br>以下面的代码为例子</p><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>** argv)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="keyword">int</span> num = <span class="number">0x00636261</span>;<span class="comment">//用16进制表示32位int，0x61是字符&#x27;a&#x27;的ASCII码</span></span><br><span class="line"><span class="keyword">int</span> * pnum = &amp;num;</span><br><span class="line"><span class="keyword">char</span> * pstr = <span class="keyword">reinterpret_cast</span>&lt;<span class="keyword">char</span> *&gt;(pnum);</span><br><span class="line">cout&lt;&lt;<span class="string">&quot;pnum指针的值: &quot;</span>&lt;&lt;pnum&lt;&lt;endl;</span><br><span class="line">cout&lt;&lt;<span class="string">&quot;pstr指针的值: &quot;</span>&lt;&lt;<span class="keyword">static_cast</span>&lt;<span class="keyword">void</span> *&gt;(pstr)&lt;&lt;endl;<span class="comment">//直接输出pstr会输出其指向的字符串，这里的类型转换是为了保证输出pstr的值</span></span><br><span class="line">cout&lt;&lt;<span class="string">&quot;pnum指向的内容: &quot;</span>&lt;&lt;hex&lt;&lt;*pnum&lt;&lt;endl;</span><br><span class="line">cout&lt;&lt;<span class="string">&quot;pstr指向的内容: &quot;</span>&lt;&lt;pstr&lt;&lt;endl;</span><br><span class="line"><span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>pnum和pstr的值是一样的，但是过程不同。<br>即，使用reinterpret_cast运算符把pnum从int*转变成char*类型并用于初始化pstr后，pstr也指向num的内存区域，但是由于pstr是char*类型的，通过pstr读写num内存区域将不再按照整型变量的规则，而是按照char型变量规则。<br>如果我们将num变为0x63006261，那pnum的值就是”ab”了。</p><p>所以在使用这类转型的时候需要非常慎重。</p>]]></content>
-      
-      
-      
-        <tags>
-            
-            <tag> C++ 类型转换 </tag>
+            <tag> C++,类型转换 </tag>
             
         </tags>
       
